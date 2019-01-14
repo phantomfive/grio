@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<HTML>
+  <HEAD>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="style/increment.css">
+    
+    <title>Increment Inc. Widget</title>
+  </HEAD>
+  <body>
+    <img src="/images/logo.png" id="logo">
+    
+    
+    <div class="coverAll" id="confirm">
+      <div class="modal">
+	<div id="message" class="modalMessage"></div>
+	<div class="modalButtonDiv">
+	  <div id="acceptButton" class="modalButton acceptButton" onclick="hideModal('confirm', true)">Accept</div>
+	  <div id="cancel" class="modalButton cancelButton" onClick="hideModal('confirm', false)">Cancel</div></div>
+      </div>
+    </div>
+    
+    
+    <div id="container">
+      <div id="counterBox" class="counterBox">
+	<div id="counterLabel">
+	  Count:
+	</div>
+	<div id="counter">
+	  0
+	</div>
+	<div id="incrementButton" class="button" onclick="doIncrement()">
+	  Increment
+	</div>
+      </div>
+    </div>
+    
+
+  
+  <script>
+    //-------------------------------------------------
+    //Functions for generically manipulating modals
+    //-------------------------------------------------
+    function showModal(modalId, message, onSuccessFunction){
+    var modal = document.getElementById(modalId);
+
+       modal.style.animationName="fadeIn";
+       modal.onSuccessFunction = onSuccessFunction;
+       var messageDiv = modal.querySelector("#message");
+       messageDiv.innerHTML = message;  
+    }
+
+    //This will get called when the cancel or accept buttons are clicked.
+    function hideModal(modalId, successful) {
+       var modal = document.getElementById(modalId);
+       if(successful) {
+          modal.onSuccessFunction();
+       }
+       modal.style.animationName="fadeOut";
+    }
+    
+
+
+    //-----------------------------------------------
+    // Increment specific functions
+    //-----------------------------------------------
+
+    //Displays a modal, and if confirmed, increments the counter
+    function doIncrement() {
+       var counter = document.getElementById("counter");
+       const oldVal = parseInt(counter.innerHTML);
+       const newVal = nextVal(oldVal);
+       const message = "the current count is " + oldVal + ".<BR>" +
+                       "The next will be " + newVal + ".";
+
+       showModal('confirm', message, ()=> {
+       counter.innerHTML = newVal;
+
+       //When the number gets too big, reduce the font size so it still fits
+       if(newVal>1000000) {
+             counter.style.fontSize = "40px";
+       }
+    })}
+
+
+    
+    function nextVal(currentVal) {
+       const t = currentVal * 2;
+       if(t<1){
+          return 1;
+       }
+       else{
+	   return t;
+       }
+    }
+
+	      </script>
+  </body>
+</HTML>

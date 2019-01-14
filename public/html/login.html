@@ -1,0 +1,67 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta name="viewport"
+	  content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="style/login.css">
+    <title>There is cake. Please Log In.</title>
+  </head>
+  
+  <body>
+    <div id="container">
+      
+      <div class="loginPanel">
+	<img src="/images/logo.png" width=150px>
+	<div class="welcome">Welcome!</div>
+	<div class="pleaseLogin">And please log in.</div>
+	<form action="javascript:login()">
+	  <table>
+            <tr><td><label>Username:</label>
+              <td><input type="text" name="username" id="username" class="textbox"/>
+		
+		<tr><td><label>Password:</label>
+		  <td><input type="password" name="password" id="password" class="textbox"/>
+	  </table>
+	  
+          <input type="submit" value="Log In" class="button"/>
+	  <div id="errorMessage" class="errorMessage"></div>
+	</form>
+      </div>
+    </div>
+    
+</div>
+
+
+<script>
+  function setError(message, log) {
+  document.getElementById("errorMessage").innerHTML = message;
+  if(log) {console.log(log)};
+  }
+  
+  function login(){
+  setError("");
+  
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const body = JSON.stringify
+  fetch("/login", {
+  method: 'post',
+  headers: {"Content-Type": "application/json"},
+  body:JSON.stringify({username:username, password:password})
+  })
+  .then(result=>{
+  if(result.ok) {
+  window.location.href = "/";
+  }else {
+  setError("Please try again, that didn't work.");
+  }})
+  .catch((err)=>setError("Network Error"));
+  
+  }
+  
+</script>
+
+
+</body>
+</html>
